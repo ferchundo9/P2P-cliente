@@ -22,10 +22,12 @@ public class User extends UnicastRemoteObject implements InterfazCliente{
     private String name;
     private LinkedList<InterfazCliente> amigos;
     public User(String name,LinkedList<InterfazCliente> amigos) throws RemoteException{
+        super();
         this.name=name;
         this.amigos=amigos;
     }
     public User(String name)throws RemoteException{
+        super();
         this.name=name;
         this.amigos=new LinkedList<>();
     }
