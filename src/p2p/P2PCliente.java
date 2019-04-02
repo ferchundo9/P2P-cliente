@@ -30,12 +30,12 @@ public class P2PCliente {
         InterfazServidor h =(InterfazServidor)Naming.lookup(registryURL);
       
      
-        InterfazCliente callbackObj = new User("Jairo");
+        /*InterfazCliente callbackObj = new User("Jairo");
         h.registrarCliente(callbackObj);
         h.deRegister(callbackObj);
         h.registro(callbackObj,"jairo");
         System.out.println(h.login(callbackObj,"jairo1111"));
-        System.out.println("Cliente registrado en el servidor");
+        System.out.println("Cliente registrado en el servidor");*/
 
     }
     catch (Exception e) 

@@ -18,10 +18,10 @@ import java.util.logging.Logger;
  *
  * @author fer
  */
-public class User extends UnicastRemoteObject implements InterfazCliente{
+public class User extends UnicastRemoteObject implements InterfazUsuario{
     private String name;
-    private LinkedList<InterfazCliente> amigos;
-    public User(String name,LinkedList<InterfazCliente> amigos) throws RemoteException{
+    private LinkedList<InterfazUsuario> amigos;
+    public User(String name,LinkedList<InterfazUsuario> amigos) throws RemoteException{
         super();
         this.name=name;
         this.amigos=amigos;
@@ -41,7 +41,7 @@ public class User extends UnicastRemoteObject implements InterfazCliente{
     }
 
     @Override
-    public void ReceiveFriendRequest(InterfazCliente friend) throws RemoteException{
+    public void ReceiveFriendRequest(InterfazUsuario friend) throws RemoteException{
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("El usuario:"+friend.getName()+ "te ha enviado una solicitud de amistad");
         String respuesta=null;

@@ -10,9 +10,5 @@ import java.rmi.*;
  * @author fer
  */
 public interface InterfazCliente extends Remote {
-    public String getName() throws java.rmi.RemoteException;;
-    public void SendMessageToMe(String message)throws java.rmi.RemoteException;;
-    public void ReceiveFriendRequest(InterfazCliente friend)throws java.rmi.RemoteException;;
-    public void AcceptFriendRequest()throws java.rmi.RemoteException;;
-    public void CancelFriendRequest(String user)throws java.rmi.RemoteException;;
+    
 }
