@@ -32,7 +32,9 @@ public class P2PCliente {
      
         InterfazCliente callbackObj = new User("Jairo");
         h.registrarCliente(callbackObj);
+        h.deRegister(callbackObj);
         h.registro(callbackObj,"jairo");
+        System.out.println(h.login(callbackObj,"jairo1111"));
         System.out.println("Cliente registrado en el servidor");
 
     }
