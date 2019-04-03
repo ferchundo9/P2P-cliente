@@ -4,11 +4,12 @@
  * and open the template in the editor.
  */
 package p2p;
-import java.rmi.*;
+
 /**
  *
  * @author fer
  */
-public interface InterfazCliente extends Remote {
-    
+public interface UserCallBack {
+    public void SendMessageToMe(String message)throws java.rmi.RemoteException;
+    public void ReceiveFriendRequest(InterfazUsuario friend)throws java.rmi.RemoteException;
 }

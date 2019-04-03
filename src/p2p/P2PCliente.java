@@ -31,11 +31,14 @@ public class P2PCliente {
         InterfazServidor h =(InterfazServidor)Naming.lookup(registryURL);
       
      
-        InterfazCliente callbackObj = new ImplementacionCliente();
+        UserCallBack callbackObj = new CallBack();
         //h.registrarCliente(callbackObj);
-        h.deRegister("jairo");
-        h.registro("jairo","jairo");
-        InterfazUsuario u=h.login("jairo", "jairo");
+        
+        System.out.println("Introduce nombre de usuario");
+        String username=br.readLine();
+        h.deRegister(username);
+        h.registro(username,username);
+        InterfazUsuario u=h.login(username, username,callbackObj);
         if(u!=null)
         {
             System.out.println(u.getName());
@@ -45,15 +48,23 @@ public class P2PCliente {
             System.out.println("No existe");
         }
         System.out.println("Cliente registrado en el servidor");
+        System.out.println("Introduce comando");
         String option;
-        option=br.readLine();
-        
-        if(option.equals("list")){
-            ArrayList<String> nombres;
-            nombres=h.getList();
-            System.out.println("Lista de conectados");
-            for(String nombre:nombres){
-                System.out.println(nombre);
+        while(true){
+            option=br.readLine();
+
+            if(option.equals("list")){
+                ArrayList<String> nombres;
+                nombres=h.getList();
+                System.out.println("Lista de conectados");
+                for(String nombre:nombres){
+                    System.out.println(nombre);
+                }
+            }
+            if(option.equals("friend")){
+                System.out.println("Introduce el nombre de tu nuevo amigo");
+                String nombre=br.readLine();
+                h.addFriendRequest(u.getName(), nombre);
             }
         }
 
