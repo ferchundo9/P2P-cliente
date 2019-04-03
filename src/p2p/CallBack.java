@@ -42,10 +42,10 @@ public class CallBack extends UnicastRemoteObject implements UserCallBack{
         }
 
         if(respuesta.equals("si")){
-            //friend.getCallBack().AcceptFriendRequest();
+            //friend.AcceptFriendRequest(this);
             
         }else if(respuesta.equals("no")){
-            //friend.CancelFriendRequest(friend);
+            //friend.CancelFriendRequest();
         }
     }
     
