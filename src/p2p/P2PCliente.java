@@ -42,6 +42,7 @@ public class P2PCliente {
         if(u!=null)
         {
             System.out.println(u.getName());
+            System.out.println("Cliente registrado en el servidor");
         }
         else
         {
