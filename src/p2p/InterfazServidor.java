@@ -14,4 +14,6 @@ public interface InterfazServidor extends Remote  {
      public InterfazUsuario login(String cliente,String pass) throws java.rmi.RemoteException;;
      public void registro(String cliente,String pass) throws java.rmi.RemoteException;;
      public void deRegister(String cliente) throws java.rmi.RemoteException;;
+     public void nuevaAmistad(String usuario1,String usuario2);
+     public void desAmistad(String usuario1,String usuario2);
 }
