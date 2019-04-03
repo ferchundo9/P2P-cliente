@@ -6,6 +6,7 @@
 package p2p;
 import java.io.*;
 import java.rmi.*;
+import java.util.ArrayList;
 /**
  *
  * @author fer
@@ -31,7 +32,7 @@ public class P2PCliente {
       
      
         InterfazCliente callbackObj = new ImplementacionCliente();
-        h.registrarCliente(callbackObj);
+        //h.registrarCliente(callbackObj);
         h.deRegister("jairo");
         h.registro("jairo","jairo");
         InterfazUsuario u=h.login("jairo", "jairo");
@@ -44,6 +45,17 @@ public class P2PCliente {
             System.out.println("No existe");
         }
         System.out.println("Cliente registrado en el servidor");
+        String option;
+        option=br.readLine();
+        
+        if(option.equals("list")){
+            ArrayList<String> nombres;
+            nombres=h.getList();
+            System.out.println("Lista de conectados");
+            for(String nombre:nombres){
+                System.out.println(nombre);
+            }
+        }
 
     }
     catch (Exception e) 
