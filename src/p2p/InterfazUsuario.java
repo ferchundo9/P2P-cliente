@@ -5,6 +5,7 @@
  */
 package p2p;
 import java.rmi.*;
+import java.util.HashMap;
 /**
  *
  * @author fer
@@ -14,4 +15,5 @@ public interface InterfazUsuario extends Remote{
     public void AcceptFriendRequest(InterfazUsuario friend)throws java.rmi.RemoteException;
     public void CancelFriendRequest(InterfazUsuario friend)throws java.rmi.RemoteException;
     public UserCallBack getCallBack() throws java.rmi.RemoteException;
+    public HashMap<String,InterfazUsuario> getAmigos() throws java.rmi.RemoteException;
 }
