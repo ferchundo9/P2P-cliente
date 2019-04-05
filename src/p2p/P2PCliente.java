@@ -7,6 +7,7 @@ package p2p;
 import java.io.*;
 import java.rmi.*;
 import java.util.ArrayList;
+import java.util.Set;
 /**
  *
  * @author fer
@@ -36,8 +37,6 @@ public class P2PCliente {
         
         System.out.println("Introduce nombre de usuario");
         String username=br.readLine();
-        h.deRegister(username);
-        h.registro(username,username);
         InterfazUsuario u=h.login(username, username,callbackObj);
         if(u!=null)
         {
@@ -66,6 +65,16 @@ public class P2PCliente {
                 System.out.println("Introduce el nombre de tu nuevo amigo");
                 String nombre=br.readLine();
                 h.addFriendRequest(u.getName(), nombre);
+            }
+            if(option.equals("friendlist")){
+                Set<String> keys=u.getAmigos().keySet();
+                for(String key:keys){
+                    System.out.println(key);
+                }
+            }
+            if(option.equals("delogin")){
+                h.delogin(u);
+                System.out.println("Usuario deslogeado");
             }
             if(option.equals("nada")){
                 break;
