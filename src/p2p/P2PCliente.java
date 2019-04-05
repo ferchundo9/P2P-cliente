@@ -31,7 +31,7 @@ public class P2PCliente {
         InterfazServidor h =(InterfazServidor)Naming.lookup(registryURL);
       
      
-        UserCallBack callbackObj = new CallBack();
+        UserCallBack callbackObj =(UserCallBack) new CallBack();
         //h.registrarCliente(callbackObj);
         
         System.out.println("Introduce nombre de usuario");
@@ -66,6 +66,9 @@ public class P2PCliente {
                 System.out.println("Introduce el nombre de tu nuevo amigo");
                 String nombre=br.readLine();
                 h.addFriendRequest(u.getName(), nombre);
+            }
+            if(option.equals("nada")){
+                break;
             }
         }
 

@@ -28,7 +28,7 @@ public class CallBack extends UnicastRemoteObject implements UserCallBack{
     @Override
     public void ReceiveFriendRequest(InterfazUsuario friend,InterfazUsuario yo) throws RemoteException {
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("El usuario:"+friend.getName()+ "te ha enviado una solicitud de amistad");
+        System.out.println("El usuario:"+friend.getName()+ " te ha enviado una solicitud de amistad");
         String respuesta=null;
         try {
            
@@ -42,10 +42,15 @@ public class CallBack extends UnicastRemoteObject implements UserCallBack{
         }
 
         if(respuesta.equals("si")){
+            System.out.println("Estamos en si");
             friend.AcceptFriendRequest(yo);
             
         }else if(respuesta.equals("no")){
+            System.out.println("Estamos en no");
             friend.CancelFriendRequest(yo);
+        }
+        else{
+            System.out.println("Que pasa");
         }
     }
     
