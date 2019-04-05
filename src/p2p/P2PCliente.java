@@ -76,6 +76,14 @@ public class P2PCliente {
                 h.delogin(u);
                 System.out.println("Usuario deslogeado");
             }
+            if(option.equals("amistad"))
+            {
+                h.addFriendRequest("jairo","fernando");
+            }
+            if(option.equals("desamistad"))
+            {
+                h.desAmistad("jairo", "fernando");
+            }
             if(option.equals("nada")){
                 break;
             }
