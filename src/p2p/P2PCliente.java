@@ -33,9 +33,7 @@ public class P2PCliente {
       
      
         UserCallBack callbackObj =(UserCallBack) new CallBack();
-        //h.registrarCliente(callbackObj);
-        
-        System.out.println("Introduce nombre de usuario");
+        LoginGui interfaz = new LoginGui(h);
         String username=br.readLine();
         InterfazUsuario u=h.login(username, username,callbackObj);
         if(u!=null)

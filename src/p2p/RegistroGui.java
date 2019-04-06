@@ -1,5 +1,9 @@
 package p2p;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,12 +15,14 @@ package p2p;
  * @author Jairo
  */
 public class RegistroGui extends javax.swing.JFrame {
-
+    private InterfazServidor h;
     /**
      * Creates new form RegistroGui
      */
-    public RegistroGui() {
+    public RegistroGui(InterfazServidor h) {
         initComponents();
+        this.h=h;
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -51,6 +57,11 @@ public class RegistroGui extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton1.setText("Registro");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel2.setText("Registro");
@@ -58,6 +69,11 @@ public class RegistroGui extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(51, 0, 255));
         jLabel5.setText("Login");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         jTextPane1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jScrollPane1.setViewportView(jTextPane1);
@@ -125,6 +141,29 @@ public class RegistroGui extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        if(!jTextPane1.getText().equals("")&&!jPasswordField1.getText().equals(""))
+        {
+
+            try {
+                UserCallBack callbackObj =(UserCallBack) new CallBack();
+                h.registro(jTextPane1.getText(), jPasswordField1.getText());
+                this.setVisible(false);
+                LoginGui login = new LoginGui(h);
+                login.setVisible(true);
+            } catch (RemoteException ex) {
+                Logger.getLogger(LoginGui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:.
+        this.setVisible(false);
+        LoginGui login = new LoginGui(h);
+        login.setVisible(true);
+    }//GEN-LAST:event_jLabel5MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -151,13 +190,7 @@ public class RegistroGui extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(RegistroGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RegistroGui().setVisible(true);
-            }
-        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
