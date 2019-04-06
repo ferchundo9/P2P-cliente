@@ -69,6 +69,7 @@ public class PrincipalGui extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -116,6 +117,8 @@ public class PrincipalGui extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jButton4.setText("Chatear");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -123,12 +126,16 @@ public class PrincipalGui extends javax.swing.JFrame {
             .addComponent(jSeparator1)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 164, Short.MAX_VALUE)))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jButton4)
+                .addGap(22, 22, 22))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,8 +145,10 @@ public class PrincipalGui extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Amigos conectados", jPanel2);
@@ -157,6 +166,11 @@ public class PrincipalGui extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton1.setText("Enviar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -170,9 +184,19 @@ public class PrincipalGui extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("Aceptar");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton3.setText("Rechazar");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -261,6 +285,8 @@ public class PrincipalGui extends javax.swing.JFrame {
         }
         try 
         {
+            
+            //AMIGOS CONECTADOS
             Set <String> claves;
             claves = u.getAmigos().keySet();
             for(String key:claves)
@@ -270,24 +296,137 @@ public class PrincipalGui extends javax.swing.JFrame {
                  dm.addRow(vector);
                  dm.fireTableDataChanged();
             }
+            
+            //USUARIOS NO AMIGOS (COMBO BOX)
             jComboBox1.removeAllItems();
-            ArrayList<String> conectados=h.getList();
-            for(int i=0;i<conectados.size();i++)
+            ArrayList<String> usuarios=h.getList(u);
+            for(int i=0;i<usuarios.size();i++)
             {
-                InterfazUsuario in=u.getAmigos().get(conectados.get(i));
+                InterfazUsuario in=u.getAmigos().get(usuarios.get(i));
                 if(in==null)
                 {
-                    if(!conectados.get(i).equals(u.getName()))
+                    if(!usuarios.get(i).equals(u.getName()))
                     {
-                        jComboBox1.addItem(conectados.get(i));
+                        jComboBox1.addItem(usuarios.get(i));
                     }
                 }
+            }
+            
+            //PETICIONES PENDIENTES
+            ArrayList<String>peticionesUsuario = h.peticionesUsuario(u);
+            for(int i=0;i<peticionesUsuario.size();i++)
+            {
+                String vector[]=new String[1];
+                vector[0]=peticionesUsuario.get(i);
+                dm2.addRow(vector);
+                dm2.fireTableDataChanged();
             }
         }
         catch (RemoteException ex) {
             Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+       //ENVIAR PETICION DE AMISTAD
+       if(jComboBox1.getSelectedItem()!=null)
+       {
+           try {
+               h.addFriendRequest(u.getName(),String.valueOf(jComboBox1.getSelectedItem()));
+               
+               //CAMBIA EL COMBOBOX PARA RESETEAR LA NUEVA
+               jComboBox1.removeAllItems();
+                ArrayList<String> usuarios=h.getList(u);
+                for(int i=0;i<usuarios.size();i++)
+                {
+                    InterfazUsuario in=u.getAmigos().get(usuarios.get(i));
+                    if(in==null)
+                    {
+                        if(!usuarios.get(i).equals(u.getName()))
+                        {
+                            jComboBox1.addItem(usuarios.get(i));
+                        }
+                    }
+                }
+           } catch (RemoteException ex) {
+               Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        //ACEPTAR PETICION DE AMISTAD
+        String tipo = jTable2.getValueAt(jTable2.getSelectedRow(),0).toString();
+        DefaultTableModel dm2 = (DefaultTableModel) jTable2.getModel();
+        int rowCount2 = dm2.getRowCount();
+        if(tipo!=null)
+        {
+            try {
+                h.nuevaAmistad(u.getName(), tipo);
+                
+                //RENUEVA PETICIONES PENDIENTES
+                for (int i = rowCount2 - 1; i >= 0; i--) 
+                {
+                    dm2.removeRow(i);
+                }
+                ArrayList<String>peticionesUsuario = h.peticionesUsuario(u);
+                for(int i=0;i<peticionesUsuario.size();i++)
+                {
+                    String vector[]=new String[1];
+                    vector[0]=peticionesUsuario.get(i);
+                    dm2.addRow(vector);
+                    dm2.fireTableDataChanged();
+                }
+            } catch (RemoteException ex) {
+                Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+       //RECHAZAR AMISTAD
+        String tipo = jTable2.getValueAt(jTable2.getSelectedRow(),0).toString();
+        DefaultTableModel dm2 = (DefaultTableModel) jTable2.getModel();
+        int rowCount2 = dm2.getRowCount();
+        if(tipo!=null)
+        {
+            try {
+                h.rechazoAmistad(u.getName(), tipo);
+
+                //RENUEVA PETICIONES PENDIENTES
+                for (int i = rowCount2 - 1; i >= 0; i--) 
+                {
+                    dm2.removeRow(i);
+                }
+                ArrayList<String>peticionesUsuario = h.peticionesUsuario(u);
+                for(int i=0;i<peticionesUsuario.size();i++)
+                {
+                    String vector[]=new String[1];
+                    vector[0]=peticionesUsuario.get(i);
+                    dm2.addRow(vector);
+                    dm2.fireTableDataChanged();
+                }
+                
+                //CAMBIA EL COMBOBOX PARA RESETEAR LA NUEVA
+               jComboBox1.removeAllItems();
+                ArrayList<String> usuarios=h.getList(u);
+                for(int i=0;i<usuarios.size();i++)
+                {
+                    InterfazUsuario in=u.getAmigos().get(usuarios.get(i));
+                    if(in==null)
+                    {
+                        if(!usuarios.get(i).equals(u.getName()))
+                        {
+                            jComboBox1.addItem(usuarios.get(i));
+                        }
+                    }
+                }
+                
+                } catch (RemoteException ex) {
+                Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -322,6 +461,7 @@ public class PrincipalGui extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

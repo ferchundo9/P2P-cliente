@@ -50,15 +50,6 @@ public class P2PCliente {
         String option;
         while(true){
             option=br.readLine();
-
-            if(option.equals("list")){
-                ArrayList<String> nombres;
-                nombres=h.getList();
-                System.out.println("Lista de conectados");
-                for(String nombre:nombres){
-                    System.out.println(nombre);
-                }
-            }
             if(option.equals("friend")){
                 System.out.println("Introduce el nombre de tu nuevo amigo");
                 String nombre=br.readLine();
