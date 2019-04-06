@@ -158,11 +158,13 @@ public class LoginGui extends javax.swing.JFrame {
 
             try {
                 UserCallBack callbackObj =(UserCallBack) new CallBack();
+                CallBack c=(CallBack)callbackObj;
                 InterfazUsuario u=h.login(jTextPane1.getText(),jPasswordField1.getText(), callbackObj);
                 if(u!=null)
                 {
                     PrincipalGui interfaz=new PrincipalGui(h,u);
                     this.setVisible(false);
+                    c.setInterfaz(interfaz);
                     interfaz.setVisible(true);
                 }
                 else

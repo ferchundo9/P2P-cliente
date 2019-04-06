@@ -16,42 +16,22 @@ import java.rmi.server.UnicastRemoteObject;
  * @author fer
  */
 public class CallBack extends UnicastRemoteObject implements UserCallBack{
+    private PrincipalGui interfaz;
     public CallBack() throws RemoteException{
         super();
     }
     @Override
     public void SendMessageToMe(String message) throws RemoteException {
         
-        System.out.println(message);
+        interfaz.getjEditorPane1().setText(message);
     }
 
-    @Override
-    public void ReceiveFriendRequest(InterfazUsuario friend,InterfazUsuario yo) throws RemoteException {
-        BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("El usuario:"+friend.getName()+ " te ha enviado una solicitud de amistad");
-        String respuesta=null;
-        try {
-           
-            do{
-                System.out.println("Desea aceptarla");
-                respuesta = bufferRead.readLine();
-            }while(!(respuesta.equals("si") || respuesta.equals("no")));
-            
-        } catch (IOException ex) {
-            System.out.println("Error escribiendo respuesta amistad");
-        }
+    public PrincipalGui getInterfaz() {
+        return interfaz;
+    }
 
-        if(respuesta.equals("si")){
-            System.out.println("Estamos en si");
-            friend.AcceptFriendRequest(yo);
-            
-        }else if(respuesta.equals("no")){
-            System.out.println("Estamos en no");
-            friend.CancelFriendRequest(yo);
-        }
-        else{
-            System.out.println("Que pasa");
-        }
+    public void setInterfaz(PrincipalGui interfaz) {
+        this.interfaz = interfaz;
     }
     
 }

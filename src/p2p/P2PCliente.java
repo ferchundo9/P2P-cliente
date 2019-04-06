@@ -31,7 +31,6 @@ public class P2PCliente {
         String registryURL =  "rmi://"+hostName+":" + portNum + "/aplicacion";  
         InterfazServidor h =(InterfazServidor)Naming.lookup(registryURL);
       
-     
         UserCallBack callbackObj =(UserCallBack) new CallBack();
         LoginGui interfaz = new LoginGui(h);
         String username=br.readLine();
@@ -46,37 +45,6 @@ public class P2PCliente {
             System.out.println("No existe");
         }
         System.out.println("Cliente registrado en el servidor");
-        System.out.println("Introduce comando");
-        String option;
-        while(true){
-            option=br.readLine();
-            if(option.equals("friend")){
-                System.out.println("Introduce el nombre de tu nuevo amigo");
-                String nombre=br.readLine();
-                h.addFriendRequest(u.getName(), nombre);
-            }
-            if(option.equals("friendlist")){
-                Set<String> keys=u.getAmigos().keySet();
-                for(String key:keys){
-                    System.out.println(key);
-                }
-            }
-            if(option.equals("delogin")){
-                h.delogin(u);
-                System.out.println("Usuario deslogeado");
-            }
-            if(option.equals("amistad"))
-            {
-                h.addFriendRequest("jairo","fernando");
-            }
-            if(option.equals("desamistad"))
-            {
-                h.desAmistad("jairo", "fernando");
-            }
-            if(option.equals("nada")){
-                break;
-            }
-        }
 
     }
     catch (Exception e) 
