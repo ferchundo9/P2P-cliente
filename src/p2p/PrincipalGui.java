@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package p2p;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Set;
 import java.util.logging.Level;
@@ -14,6 +15,11 @@ import javax.swing.table.*;
 import java.util.ArrayList;
 import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.Element;
+import javax.swing.text.html.HTMLDocument;
 /**
  *
  * @author fer
@@ -22,6 +28,7 @@ public class PrincipalGui extends javax.swing.JFrame {
     private InterfazServidor h;
     private InterfazUsuario u;
     private UserCallBack callback;
+    private String amigoChat;
     /**
      * Creates new form Principal
      */
@@ -31,7 +38,8 @@ public class PrincipalGui extends javax.swing.JFrame {
         this.h=h;
         this.callback=null;
         this.setLocationRelativeTo(null);
-        //jEditorPane1.setContentType("text/html");
+        jTextPane1.setContentType("text/html");
+        jTextPane1.setText("<html>");
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
         jTabbedPane1.setSelectedIndex(1);
@@ -74,8 +82,9 @@ public class PrincipalGui extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jButton6 = new javax.swing.JButton();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
+        jButton7 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -119,25 +128,37 @@ public class PrincipalGui extends javax.swing.JFrame {
             }
         });
 
-        jEditorPane1.setEditable(false);
-        jScrollPane5.setViewportView(jEditorPane1);
+        jTextPane1.setEditable(false);
+        jScrollPane4.setViewportView(jTextPane1);
+
+        jButton7.setText("Enviar Archivo");
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(92, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton6)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane4))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton6))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 82, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -145,12 +166,14 @@ public class PrincipalGui extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addGap(2, 2, 2)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton6)
+                    .addComponent(jButton7))
                 .addGap(27, 27, 27))
         );
 
@@ -541,6 +564,7 @@ public class PrincipalGui extends javax.swing.JFrame {
             try {
                 jTabbedPane1.setSelectedIndex(0);
                 callback=u.getAmigos().get(tipo).getCallBack();
+                amigoChat=tipo;
                 jLabel5.setText(tipo);
             } catch (RemoteException ex) {
                 Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
@@ -553,23 +577,36 @@ public class PrincipalGui extends javax.swing.JFrame {
         if(!"".equals(jTextArea1.getText()))
         {
             try {
-                callback.SendMessageToMe(jEditorPane1.getText()+"<span style=\"color:red\">"+u.getName()+":"+jTextArea1.getText()+"</span></br>");
-                jEditorPane1.setText(jEditorPane1.getText()+u.getName()+":"+jTextArea1.getText());
+                String previo= jTextPane1.getText();
+                String[] split = previo.split("</body>");
+                if(u.getName().compareTo(amigoChat)>=1)
+                {
+                    jTextPane1.setText(split[0]+"<p style=\"color:black\">"+"Tu"+":"+jTextArea1.getText()+"</p></body></html>");
+                    callback.SendMessageToMe("<p style=\"color:black\">"+u.getName()+":"+jTextArea1.getText()+"</p></body></html>");
+                }
+                else
+                {
+                    jTextPane1.setText(split[0]+"<p align=\"right\""+"<font color=\"red\">"+"Tu"+":"+jTextArea1.getText()+"</font></p></body></html>");
+                    callback.SendMessageToMe("<p align=\"right\""+"<font color=\"red\">"+u.getName()+":"+jTextArea1.getText()+"</font></p></body></html>");
+                }
                 jTextArea1.setText("");
             } catch (RemoteException ex) {
                 Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } 
         }
     }//GEN-LAST:event_jButton6MouseClicked
 
-    public JEditorPane getjEditorPane1() {
-        return jEditorPane1;
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        this.setVisible(false);
+        ArchivosGui archivos=new ArchivosGui(amigoChat,callback,this,u);
+        archivos.setVisible(true);
+    }//GEN-LAST:event_jButton7MouseClicked
+
+    public JTextPane getjTextPane1() {
+        return jTextPane1;
     }
 
-    public void setjEditorPane1(JEditorPane jEditorPane1) {
-        this.jEditorPane1 = jEditorPane1;
-    }
-
+    
    
   
     public static void main(String args[]) {
@@ -605,8 +642,8 @@ public class PrincipalGui extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -618,12 +655,13 @@ public class PrincipalGui extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }
