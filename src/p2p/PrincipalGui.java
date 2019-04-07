@@ -579,16 +579,8 @@ public class PrincipalGui extends javax.swing.JFrame {
             try {
                 String previo= jTextPane1.getText();
                 String[] split = previo.split("</body>");
-                if(u.getName().compareTo(amigoChat)>=1)
-                {
-                    jTextPane1.setText(split[0]+"<p style=\"color:black\">"+"Tu"+":"+jTextArea1.getText()+"</p></body></html>");
-                    callback.SendMessageToMe("<p style=\"color:black\">"+u.getName()+":"+jTextArea1.getText()+"</p></body></html>");
-                }
-                else
-                {
-                    jTextPane1.setText(split[0]+"<p align=\"right\""+"<font color=\"red\">"+"Tu"+":"+jTextArea1.getText()+"</font></p></body></html>");
-                    callback.SendMessageToMe("<p align=\"right\""+"<font color=\"red\">"+u.getName()+":"+jTextArea1.getText()+"</font></p></body></html>");
-                }
+                jTextPane1.setText(split[0]+"<p style=\"color:black\">"+"Tu"+":"+jTextArea1.getText()+"</p></body></html>");
+                callback.SendMessageToMe("<p align=\"right\""+"<font color=\"red\">"+u.getName()+":"+jTextArea1.getText()+"</font></p></body></html>");
                 jTextArea1.setText("");
             } catch (RemoteException ex) {
                 Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
