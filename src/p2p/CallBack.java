@@ -36,37 +36,88 @@ public class CallBack extends UnicastRemoteObject implements UserCallBack{
         super();
     }
     @Override
-    public void SendMessageToMe(String message) throws RemoteException {
-         String previo= interfaz.getjTextPane1().getText();
-         String[] split = previo.split("</body>");
-        interfaz.getjTextPane1().setText(split[0]+message);
+    public void SendMessageToMe(String emisor,String message) throws RemoteException {
+        
+        if(emisor.equals(interfaz.getAmigoChat())){
+            String previo= interfaz.getjTextPane1().getText();
+            String[] split = previo.split("</body>");
+            interfaz.getjTextPane1().setText(split[0]+message);
+            interfaz.getChats().remove(emisor);
+            interfaz.getChats().put(emisor, split[0]+message);
+        }
+        else{
+            if(interfaz.getChats().containsKey(emisor)){
+                String previo= interfaz.getChats().get(emisor);
+                String[] split = previo.split("</body>");
+                interfaz.getChats().remove(emisor);
+                interfaz.getChats().put(emisor, split[0]+message);
+            }
+            else{
+                interfaz.getChats().put(emisor,"<html><body>"+message+"</body></html>");
+            }
+            
+        }
+        
     }
 
     @Override
-    public void SendImageToMe(byte [] dataInfo,String nombre)throws RemoteException
+    public void SendImageToMe(String emisor,byte [] dataInfo,String nombre)throws RemoteException
     {
         try {
+            
             File outputfile = new File(nombre);
             BufferedImage imagen = javax.imageio.ImageIO.read(new ByteArrayInputStream(dataInfo));
             ImageIO.write(imagen, "jpg", outputfile);
-            String previo= interfaz.getjTextPane1().getText();
-            String[] split = previo.split("</body>");
-            interfaz.getjTextPane1().setText(split[0]+"<p>Has recibido una imagen</p><br></body></html>");
+            if(emisor.equals(interfaz.getAmigoChat())){
+                String previo= interfaz.getjTextPane1().getText();
+                String[] split = previo.split("</body>");
+                interfaz.getjTextPane1().setText(split[0]+"<p>Has recibido una imagen</p><br></body></html>");
+                interfaz.getChats().remove(emisor);
+                interfaz.getChats().put(emisor, split[0]+"<p>Has recibido una imagen</p><br></body></html>");
+            }
+            else{
+                if(interfaz.getChats().containsKey(emisor)){
+                    String previo= interfaz.getChats().get(emisor);
+                    String[] split = previo.split("</body>");
+                    interfaz.getChats().remove(emisor);
+                    interfaz.getChats().put(emisor,split[0]+"<p>Has recibido una imagen</p><br></body></html>");
+                }
+                else{
+                    interfaz.getChats().put(emisor,"<p>Has recibido una imagen</p><br></body></html>");
+                }
+
+            }
         } catch (IOException ex) {
             Logger.getLogger(CallBack.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     @Override
-    public void SendPDFTome(byte [] dataInfo,String nombre)throws RemoteException
+    public void SendPDFTome(String emisor,byte [] dataInfo,String nombre)throws RemoteException
     {
         try {
             OutputStream out = new FileOutputStream(nombre);
             out.write(dataInfo);
             out.close();
-            String previo= interfaz.getjTextPane1().getText();
-            String[] split = previo.split("</body>");
-            interfaz.getjTextPane1().setText(split[0]+"<p>Has recibido un PDF</p><br></body></html>"); 
+            if(emisor.equals(interfaz.getAmigoChat())){
+                String previo= interfaz.getjTextPane1().getText();
+                String[] split = previo.split("</body>");
+                interfaz.getjTextPane1().setText(split[0]+"<p>Has recibido un PDF</p><br></body></html>");
+                interfaz.getChats().remove(emisor);
+                interfaz.getChats().put(emisor, split[0]+"<p>Has recibido un PDF</p><br></body></html>");
+            }
+            else{
+                if(interfaz.getChats().containsKey(emisor)){
+                    String previo= interfaz.getChats().get(emisor);
+                    String[] split = previo.split("</body>");
+                    interfaz.getChats().remove(emisor);
+                    interfaz.getChats().put(emisor,split[0]+"<p>Has recibido un PDF</p><br></body></html>");
+                }
+                else{
+                    interfaz.getChats().put(emisor,"<p>Has recibido un PDF</p><br></body></html>");
+                }
+
+            }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(CallBack.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

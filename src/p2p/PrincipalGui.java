@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.table.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
@@ -30,6 +31,7 @@ public class PrincipalGui extends javax.swing.JFrame {
     private InterfazUsuario u;
     private UserCallBack callback;
     private String amigoChat;
+    private HashMap<String,String> chats;
     /**
      * Creates new form Principal
      */
@@ -41,6 +43,9 @@ public class PrincipalGui extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.contrasenaIncorrecta.setVisible(false);
         this.contrasenaNoCoincide.setVisible(false);
+        this.ContrasenaActualizada.setVisible(false);
+        this.amigoChat=null;
+        this.chats=new HashMap<>();
         jTextPane1.setContentType("text/html");
         jTextPane1.setText("<html>");
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -120,8 +125,8 @@ public class PrincipalGui extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -215,6 +220,11 @@ public class PrincipalGui extends javax.swing.JFrame {
         jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton4MouseClicked(evt);
+            }
+        });
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
             }
         });
 
@@ -367,7 +377,6 @@ public class PrincipalGui extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setText("Nueva Contraseña");
 
-        ContrasenaActual.setText("jPasswordField1");
         ContrasenaActual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ContrasenaActualActionPerformed(evt);
@@ -377,14 +386,11 @@ public class PrincipalGui extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel8.setText("Confirmar Contraseña");
 
-        ConfirmarContrasena.setText("jPasswordField2");
         ConfirmarContrasena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ConfirmarContrasenaActionPerformed(evt);
             }
         });
-
-        NuevaContrasena.setText("jPasswordField3");
 
         jButton8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton8.setText("Actualizar Contraseña");
@@ -688,6 +694,11 @@ public class PrincipalGui extends javax.swing.JFrame {
                 callback=u.getAmigos().get(tipo).getCallBack();
                 amigoChat=tipo;
                 jLabel5.setText(tipo);
+                if(chats.containsKey(amigoChat)){
+                    jTextPane1.setText(chats.get(amigoChat));
+                }else{
+                    jTextPane1.setText("");
+                }
             } catch (RemoteException ex) {
                 Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -696,17 +707,39 @@ public class PrincipalGui extends javax.swing.JFrame {
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
         //ENVIAR MENSAJE
-        if(!"".equals(jTextArea1.getText()))
-        {
-            try {
-                String previo= jTextPane1.getText();
-                String[] split = previo.split("</body>");
-                jTextPane1.setText(split[0]+"<p style=\"color:black\">"+"Tu"+":"+jTextArea1.getText()+"</p></body></html>");
-                callback.SendMessageToMe("<p align=\"right\""+"<font color=\"red\">"+u.getName()+":"+jTextArea1.getText()+"</font></p></body></html>");
-                jTextArea1.setText("");
-            } catch (RemoteException ex) {
-                Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
-            } 
+        Set<String> keys;
+        boolean prueba=false;
+        try {
+            keys = u.getAmigos().keySet();
+            for(String key:keys){
+                if(amigoChat.equals(key)){
+                    prueba=true;
+                }
+            }
+            
+        } catch (RemoteException ex) {
+            Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(prueba){
+            if(!"".equals(jTextArea1.getText()))
+            {
+                try {
+                    String previo= jTextPane1.getText();
+                    String[] split = previo.split("</body>");
+                    jTextPane1.setText(split[0]+"<p style=\"color:black\">"+"Tu"+":"+jTextArea1.getText()+"</p></body></html>");
+                    chats.remove(amigoChat);
+                    chats.put(amigoChat,split[0]+"<p style=\"color:black\">"+"Tu"+":"+jTextArea1.getText()+"</p></body></html>");
+                    callback.SendMessageToMe(u.getName(),"<p align=\"right\""+"<font color=\"red\">"+u.getName()+":"+jTextArea1.getText()+"</font></p></body></html>");
+                    jTextArea1.setText("");
+                } catch (RemoteException ex) {
+                    Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+            }
+        }else{ 
+            String previo= jTextPane1.getText();
+            String[] split = previo.split("</body>");
+            jTextPane1.setText(split[0]+"<p style=\"color:black\">"+"Tu"+":"+"Tu amigo se ha desconectado"+"</p></body></html>");
+            jTextArea1.setText("");
         }
     }//GEN-LAST:event_jButton6MouseClicked
 
@@ -715,15 +748,6 @@ public class PrincipalGui extends javax.swing.JFrame {
         ArchivosGui archivos=new ArchivosGui(amigoChat,callback,this,h,u);
         archivos.setVisible(true);
     }//GEN-LAST:event_jButton7MouseClicked
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        try {
-            // TODO add your handling code here:
-            h.delogin(u);
-        } catch (RemoteException ex) {
-            Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_formWindowClosed
 
     private void ContrasenaActualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContrasenaActualActionPerformed
         // TODO add your handling code here:
@@ -736,13 +760,14 @@ public class PrincipalGui extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
         try {
-            if(!NuevaContrasena.equals(ConfirmarContrasena)){
+            if(!NuevaContrasena.getText().equals(ConfirmarContrasena.getText())){
                 contrasenaNoCoincide.setVisible(true);
                 contrasenaIncorrecta.setVisible(false);
                 ContrasenaActualizada.setVisible(false);
             }
             else{
-                boolean resultado=h.cambiarContrasena(u, Arrays.toString(ContrasenaActual.getPassword()), Arrays.toString(NuevaContrasena.getPassword()));
+                System.out.println(ContrasenaActual.getText());
+                boolean resultado=h.cambiarContrasena(u, ContrasenaActual.getText(), NuevaContrasena.getText());
                 if(!resultado){
                     contrasenaNoCoincide.setVisible(false);
                     contrasenaIncorrecta.setVisible(true);
@@ -760,10 +785,29 @@ public class PrincipalGui extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            h.delogin(u);
+        } catch (RemoteException ex) {
+            Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     public JTextPane getjTextPane1() {
         return jTextPane1;
     }
-
+    public HashMap<String,String> getChats(){
+        return chats;
+    }
+    public String getAmigoChat(){
+        return amigoChat;
+    }
     
    
   

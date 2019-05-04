@@ -31,10 +31,10 @@ public class P2PCliente {
       
         UserCallBack callbackObj =(UserCallBack) new CallBack();
         
-        String username=br.readLine();
-        InterfazUsuario u=h.login(username, username,callbackObj);
-        //LoginGui interfaz = new LoginGui(h,u);
-        if(u!=null)
+        //String username=br.readLine();
+        //InterfazUsuario u=h.login(username, username,callbackObj);
+        LoginGui interfaz = new LoginGui(h);
+        /*if(u!=null)
         {
             System.out.println(u.getName());
             System.out.println("Cliente registrado en el servidor");
@@ -43,7 +43,7 @@ public class P2PCliente {
         {
             System.out.println("No existe");
         }
-        System.out.println("Cliente registrado en el servidor");
+        System.out.println("Cliente registrado en el servidor");*/
 
     }
     catch (Exception e) 

@@ -51,11 +51,6 @@ public class LoginGui extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel1.setText("P2P");
@@ -191,18 +186,6 @@ public class LoginGui extends javax.swing.JFrame {
         this.setVisible(false);
         registro.setVisible(true);
     }//GEN-LAST:event_jLabel5MouseClicked
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        try {
-            // TODO add your handling code here:
-            if(usuario!=null){
-                h.delogin(usuario);
-            }
-            
-        } catch (RemoteException ex) {
-            Logger.getLogger(LoginGui.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

@@ -9,7 +9,7 @@
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <Events>
-    <EventHandler event="windowClosed" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosed"/>
+    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
   </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -249,6 +249,7 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton4MouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton5">
@@ -521,9 +522,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JPasswordField" name="ContrasenaActual">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jPasswordField1"/>
-              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ContrasenaActualActionPerformed"/>
               </Events>
@@ -537,17 +535,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JPasswordField" name="ConfirmarContrasena">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jPasswordField2"/>
-              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ConfirmarContrasenaActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JPasswordField" name="NuevaContrasena">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jPasswordField3"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButton8">
               <Properties>

@@ -58,8 +58,8 @@ public class ArchivosGui extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -143,7 +143,7 @@ public class ArchivosGui extends javax.swing.JFrame {
             buferImage = ImageIO.read(jFileChooser2.getSelectedFile());
             ImageIO.write(buferImage, "jpg", buffer);
             byte [] dataInfo = buffer.toByteArray();
-            callback.SendImageToMe(dataInfo,jFileChooser2.getSelectedFile().getName());
+            callback.SendImageToMe(u.getName(),dataInfo,jFileChooser2.getSelectedFile().getName());
             
             String previo=  p.getjTextPane1().getText();
             String[] split = previo.split("</body>");
@@ -161,7 +161,7 @@ public class ArchivosGui extends javax.swing.JFrame {
              byte[] buffer = new byte[8192];
             try {
                 buffer=Files.readAllBytes(jFileChooser2.getSelectedFile().toPath());
-                callback.SendPDFTome(buffer,jFileChooser2.getSelectedFile().getName());
+                callback.SendPDFTome(u.getName(),buffer,jFileChooser2.getSelectedFile().getName());
                 String previo=  p.getjTextPane1().getText();
                 String[] split = previo.split("</body>");
                 p.getjTextPane1().setText(split[0]+"<p>Has enviado un pdf</p><br></body></html>");
@@ -179,14 +179,15 @@ public class ArchivosGui extends javax.swing.JFrame {
         p.setVisible(true);
     }//GEN-LAST:event_jButton2MouseClicked
 
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
         try {
             // TODO add your handling code here:
             h.delogin(u);
         } catch (RemoteException ex) {
-            Logger.getLogger(ArchivosGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_formWindowClosed
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
