@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.table.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
@@ -38,6 +39,8 @@ public class PrincipalGui extends javax.swing.JFrame {
         this.h=h;
         this.callback=null;
         this.setLocationRelativeTo(null);
+        this.contrasenaIncorrecta.setVisible(false);
+        this.contrasenaNoCoincide.setVisible(false);
         jTextPane1.setContentType("text/html");
         jTextPane1.setText("<html>");
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -103,8 +106,24 @@ public class PrincipalGui extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        ContrasenaActual = new javax.swing.JPasswordField();
+        jLabel8 = new javax.swing.JLabel();
+        ConfirmarContrasena = new javax.swing.JPasswordField();
+        NuevaContrasena = new javax.swing.JPasswordField();
+        jButton8 = new javax.swing.JButton();
+        contrasenaIncorrecta = new javax.swing.JLabel();
+        contrasenaNoCoincide = new javax.swing.JLabel();
+        ContrasenaActualizada = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jTabbedPane1.setMinimumSize(new java.awt.Dimension(160, 180));
         jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -142,12 +161,12 @@ public class PrincipalGui extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane4))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3)
@@ -155,16 +174,16 @@ public class PrincipalGui extends javax.swing.JFrame {
                                 .addComponent(jButton7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton6))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(80, 80, 80)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 82, Short.MAX_VALUE)))
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                        .addGap(82, 82, 82)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(112, 112, 112)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -217,7 +236,7 @@ public class PrincipalGui extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 164, Short.MAX_VALUE))
+                        .addGap(0, 217, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton4)
@@ -238,7 +257,7 @@ public class PrincipalGui extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton5))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Amigos conectados", jPanel2);
@@ -308,7 +327,7 @@ public class PrincipalGui extends javax.swing.JFrame {
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(28, 28, 28)
                                 .addComponent(jButton1)))
-                        .addGap(0, 37, Short.MAX_VALUE)))
+                        .addGap(0, 93, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -341,6 +360,109 @@ public class PrincipalGui extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Peticiones de amistad", jPanel3);
+
+        jLabel6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel6.setText("Contraseña Actual");
+
+        jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel7.setText("Nueva Contraseña");
+
+        ContrasenaActual.setText("jPasswordField1");
+        ContrasenaActual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ContrasenaActualActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel8.setText("Confirmar Contraseña");
+
+        ConfirmarContrasena.setText("jPasswordField2");
+        ConfirmarContrasena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConfirmarContrasenaActionPerformed(evt);
+            }
+        });
+
+        NuevaContrasena.setText("jPasswordField3");
+
+        jButton8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton8.setText("Actualizar Contraseña");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        contrasenaIncorrecta.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        contrasenaIncorrecta.setForeground(new java.awt.Color(255, 0, 0));
+        contrasenaIncorrecta.setText("La contraseña actual es incorrecta");
+
+        contrasenaNoCoincide.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        contrasenaNoCoincide.setForeground(new java.awt.Color(255, 0, 0));
+        contrasenaNoCoincide.setText("Las nuevas contraseñas no coinciden");
+
+        ContrasenaActualizada.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        ContrasenaActualizada.setForeground(new java.awt.Color(0, 204, 0));
+        ContrasenaActualizada.setText("La contraseña ha sido actualizada");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                    .addComponent(ConfirmarContrasena)
+                    .addComponent(NuevaContrasena)
+                    .addComponent(ContrasenaActual))
+                .addContainerGap(28, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(contrasenaIncorrecta, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(84, 84, 84))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(contrasenaNoCoincide, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(ContrasenaActualizada, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40))))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(ContrasenaActualizada, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(contrasenaIncorrecta, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ContrasenaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NuevaContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ConfirmarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(contrasenaNoCoincide, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
+        );
+
+        jTabbedPane1.addTab("Cambiar Contraseña", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -590,9 +712,53 @@ public class PrincipalGui extends javax.swing.JFrame {
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         this.setVisible(false);
-        ArchivosGui archivos=new ArchivosGui(amigoChat,callback,this,u);
+        ArchivosGui archivos=new ArchivosGui(amigoChat,callback,this,h,u);
         archivos.setVisible(true);
     }//GEN-LAST:event_jButton7MouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        try {
+            // TODO add your handling code here:
+            h.delogin(u);
+        } catch (RemoteException ex) {
+            Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosed
+
+    private void ContrasenaActualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContrasenaActualActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ContrasenaActualActionPerformed
+
+    private void ConfirmarContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmarContrasenaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ConfirmarContrasenaActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        try {
+            if(!NuevaContrasena.equals(ConfirmarContrasena)){
+                contrasenaNoCoincide.setVisible(true);
+                contrasenaIncorrecta.setVisible(false);
+                ContrasenaActualizada.setVisible(false);
+            }
+            else{
+                boolean resultado=h.cambiarContrasena(u, Arrays.toString(ContrasenaActual.getPassword()), Arrays.toString(NuevaContrasena.getPassword()));
+                if(!resultado){
+                    contrasenaNoCoincide.setVisible(false);
+                    contrasenaIncorrecta.setVisible(true);
+                    ContrasenaActualizada.setVisible(false);
+                }else{
+                    contrasenaNoCoincide.setVisible(false);
+                    contrasenaIncorrecta.setVisible(false);
+                    ContrasenaActualizada.setVisible(true);
+                }
+            }
+            
+        } catch (RemoteException ex) {
+            Logger.getLogger(PrincipalGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     public JTextPane getjTextPane1() {
         return jTextPane1;
@@ -628,6 +794,12 @@ public class PrincipalGui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPasswordField ConfirmarContrasena;
+    private javax.swing.JPasswordField ContrasenaActual;
+    private javax.swing.JLabel ContrasenaActualizada;
+    private javax.swing.JPasswordField NuevaContrasena;
+    private javax.swing.JLabel contrasenaIncorrecta;
+    private javax.swing.JLabel contrasenaNoCoincide;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -635,15 +807,20 @@ public class PrincipalGui extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

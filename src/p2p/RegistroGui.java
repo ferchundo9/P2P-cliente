@@ -16,12 +16,14 @@ import java.util.logging.Logger;
  */
 public class RegistroGui extends javax.swing.JFrame {
     private InterfazServidor h;
+    private InterfazUsuario usuario;
     /**
      * Creates new form RegistroGui
      */
-    public RegistroGui(InterfazServidor h) {
+    public RegistroGui(InterfazServidor h,InterfazUsuario usuario) {
         initComponents();
         this.h=h;
+        this.usuario=usuario;
         this.setLocationRelativeTo(null);
     }
 

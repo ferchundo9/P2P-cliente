@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -29,7 +30,8 @@ public class ArchivosGui extends javax.swing.JFrame {
     private UserCallBack callback;
     private PrincipalGui p;
     private InterfazUsuario u;
-    public ArchivosGui(String amigo,UserCallBack callback,PrincipalGui p,InterfazUsuario u) {
+    private InterfazServidor h;
+    public ArchivosGui(String amigo,UserCallBack callback,PrincipalGui p,InterfazServidor h,InterfazUsuario u) {
         initComponents();
         this.amigo=amigo;
         jLabel5.setText(amigo);
@@ -55,6 +57,11 @@ public class ArchivosGui extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -171,6 +178,15 @@ public class ArchivosGui extends javax.swing.JFrame {
         this.setVisible(false);
         p.setVisible(true);
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        try {
+            // TODO add your handling code here:
+            h.delogin(u);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ArchivosGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

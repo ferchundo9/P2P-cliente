@@ -6,8 +6,6 @@
 package p2p;
 import java.io.*;
 import java.rmi.*;
-import java.util.ArrayList;
-import java.util.Set;
 /**
  *
  * @author fer
@@ -32,9 +30,10 @@ public class P2PCliente {
         InterfazServidor h =(InterfazServidor)Naming.lookup(registryURL);
       
         UserCallBack callbackObj =(UserCallBack) new CallBack();
-        LoginGui interfaz = new LoginGui(h);
+        
         String username=br.readLine();
         InterfazUsuario u=h.login(username, username,callbackObj);
+        //LoginGui interfaz = new LoginGui(h,u);
         if(u!=null)
         {
             System.out.println(u.getName());

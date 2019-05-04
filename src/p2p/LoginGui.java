@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public class LoginGui extends javax.swing.JFrame {
 
     private InterfazServidor h;
+    private InterfazUsuario usuario;
     /**
      * Creates new form LoginGui
      */
@@ -24,6 +25,7 @@ public class LoginGui extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.h=h;
+        this.usuario=null;
         jLabel6.setVisible(false);
     }
 
@@ -49,6 +51,11 @@ public class LoginGui extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel1.setText("P2P");
@@ -159,10 +166,10 @@ public class LoginGui extends javax.swing.JFrame {
             try {
                 UserCallBack callbackObj =(UserCallBack) new CallBack();
                 CallBack c=(CallBack)callbackObj;
-                InterfazUsuario u=h.login(jTextPane1.getText(),jPasswordField1.getText(), callbackObj);
-                if(u!=null)
+                this.usuario=h.login(jTextPane1.getText(),jPasswordField1.getText(), callbackObj);
+                if(usuario!=null)
                 {
-                    PrincipalGui interfaz=new PrincipalGui(h,u);
+                    PrincipalGui interfaz=new PrincipalGui(h,usuario);
                     this.setVisible(false);
                     c.setInterfaz(interfaz);
                     interfaz.setVisible(true);
@@ -180,10 +187,22 @@ public class LoginGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        RegistroGui registro=new RegistroGui(h);
+        RegistroGui registro=new RegistroGui(h,usuario);
         this.setVisible(false);
         registro.setVisible(true);
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        try {
+            // TODO add your handling code here:
+            if(usuario!=null){
+                h.delogin(usuario);
+            }
+            
+        } catch (RemoteException ex) {
+            Logger.getLogger(LoginGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
